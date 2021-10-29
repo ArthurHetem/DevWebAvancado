@@ -19,12 +19,3 @@ Route::get('/', [\App\Http\Controllers\PrincipalController::class, 'principal'])
 Route::get('/sobre-nos', [\App\Http\Controllers\SobreNosController::class, 'sobreNos']);
 
 Route::get('/contato', [\App\Http\Controllers\ContatoController::class, 'contato']);
-
-Route::get(
-  '/contato/{nome}/{categoriaId}', 
-  function(
-    string $nome = 'Desconhecido', 
-    int $categoriaId = 1
-    ) {
-      echo "Estamos aqui: $nome - $categoriaId";
-})->where('categoriaId', '[0-9]+')->where('nome', '[A-Za-z]+');
