@@ -21,12 +21,10 @@ Route::get('/sobre-nos', [\App\Http\Controllers\SobreNosController::class, 'sobr
 Route::get('/contato', [\App\Http\Controllers\ContatoController::class, 'contato']);
 
 Route::get(
-  '/contato/{nome?}/{categoria?}/{assunto?}/{mensagem?}', 
+  '/contato/{nome}/{categoriaId}', 
   function(
     string $nome = 'Desconhecido', 
-    string $categoria = 'Informação', 
-    string $assunto = 'Contato', 
-    string $mensagem = 'mensagem não informada'
+    int $categoriaId = 1
     ) {
-      echo 'Estamos aqui: '. $nome . ' - '. $categoria . ' - '. $assunto . ' - '. $mensagem;
-});
+      echo "Estamos aqui: $nome - $categoriaId";
+})->where('categoriaId', '[0-9]+')->where('nome', '[A-Za-z]+');
