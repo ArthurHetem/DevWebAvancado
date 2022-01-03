@@ -1,38 +1,33 @@
-<h3>Fornecedor</h3>
+@extends('app.layouts.basico')
 
-@php
-    /*
-    if(empty($variavel)) {} //retornar true se a variável estiver vazia
-    - ''
-    - 0
-    - 0.0
-    - '0'
-    - null
-    - false
-    - array()
-    - $var
-    */
-@endphp
+@section('titulo', 'Fornecedor')
 
-@isset($fornecedores)
-    @forelse($fornecedores as $indice => $fornecedor)
-        Iteração atual: {{ $loop->iteration }}
-        <br>
-        Fornecedor: {{ $fornecedor['nome'] }}
-        <br>
-        Status: {{ $fornecedor['status'] }}
-        <br>
-        CNPJ: {{  $fornecedor['cnpj'] ?? 'Dado não foi preenchido' }}
-        <br>
-        Telefone {{  $fornecedor['ddd'] ?? '' }} {{ $fornecedor['telefone'] ?? '' }}
-        @if ($loop->first)
-            Primeira iteração do loop
-        @endif
-        @if ($loop->last)
-            Última iteração do loop
-            <br>
-            Total de registros: {{ $loop->count }}
-    @empty
-        Não existem fornecedores cadastrados!!!
-    @endforelse
-@endisset
+@section('conteudo')
+
+    <div class="conteudo-pagina">
+        <div class="titulo-pagina-2">
+            <p>Fornecedor</p>
+        </div>
+
+        <div class="menu">
+            <ul>
+                <li><a href="{{ route('app.fornecedor.adicionar') }}">Novo</a></li>
+                <li><a href="{{ route('app.fornecedor') }}">Consulta</a></li>
+            </ul>
+        </div>
+
+        <div class="informacoes-pagina">
+            <div style="width: 30%; margin-left: auto; margin-right: auto">
+                <form action="{{ route('app.fornecedor.listar') }}" method="post">
+                    @csrf
+                    <input type="text" name="nome" placeholder="Nome" class="borda-preta">
+                    <input type="text" name="site" placeholder="Site" class="borda-preta">
+                    <input type="text" name="uf" placeholder="UF" class="borda-preta">
+                    <input type="text" name="email" placeholder="E-mail" class="borda-preta">
+                    <button type="submit" class="borda-preta">Pesquisar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+@endsection
