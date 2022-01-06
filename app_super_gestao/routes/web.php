@@ -24,7 +24,7 @@ Route::post('/login', [\App\Http\Controllers\LoginController::class, 'autenticar
 Route::middleware('autenticacao')->prefix('/app')->group(function() {
   Route::get('/cliente', [\App\Http\Controllers\ClienteController::class, 'index'])->name('app.cliente');
   Route::get('/fornecedor',  [\App\Http\Controllers\FornecedorController::class, 'index'])->name('app.fornecedor');
-  Route::get('/produto', [\App\Http\Controllers\ProdutoController::class, 'index'])->name('app.produto');
+  Route::resource('produto', \App\Http\Controllers\ProdutoController::class);
   Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('app.home');
   Route::get('/sair', [\App\Http\Controllers\LoginController::class, 'sair'])->name('app.sair');
 
@@ -35,6 +35,7 @@ Route::middleware('autenticacao')->prefix('/app')->group(function() {
   Route::post('/fornecedor/adicionar',  [\App\Http\Controllers\FornecedorController::class, 'adicionar'])->name('app.fornecedor.adicionar');
   Route::get('/fornecedor/editar/{id}',  [\App\Http\Controllers\FornecedorController::class, 'editar'])->name('app.fornecedor.editar');
   Route::post('/fornecedor/editar/{id}',  [\App\Http\Controllers\FornecedorController::class, 'editar'])->name('app.fornecedor.editar');
+  Route::get('/fornecedor/excluir/{id}',  [\App\Http\Controllers\FornecedorController::class, 'excluir'])->name('app.fornecedor.excluir');
 
 });
 
