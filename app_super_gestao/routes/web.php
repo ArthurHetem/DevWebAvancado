@@ -22,9 +22,12 @@ Route::get('/login/{erro?}', [\App\Http\Controllers\LoginController::class, 'ind
 Route::post('/login', [\App\Http\Controllers\LoginController::class, 'autenticar'])->name('site.login');
 
 Route::middleware('autenticacao')->prefix('/app')->group(function() {
-  Route::get('/cliente', [\App\Http\Controllers\ClienteController::class, 'index'])->name('app.cliente');
   Route::get('/fornecedor',  [\App\Http\Controllers\FornecedorController::class, 'index'])->name('app.fornecedor');
   Route::resource('produto', \App\Http\Controllers\ProdutoController::class);
+  Route::resource('produto-detalhe', \App\Http\Controllers\ProdutoDetalheController::class);
+  Route::resource('cliente', \App\Http\Controllers\ClienteController::class);
+  Route::resource('pedido', \App\Http\Controllers\PedidoController::class);
+  Route::resource('pedido-produto', \App\Http\Controllers\PedidoProdutoController::class);
   Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('app.home');
   Route::get('/sair', [\App\Http\Controllers\LoginController::class, 'sair'])->name('app.sair');
 

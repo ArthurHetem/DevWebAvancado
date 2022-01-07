@@ -1,0 +1,6 @@
+ 
+# create databases
+CREATE DATABASE IF NOT EXISTS `sg`;
+CREATE DATABASE IF NOT EXISTS `ct`;
+
+GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%';

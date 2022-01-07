@@ -17,4 +17,8 @@ class Fornecedor extends Model
         'site',
         'uf',
     ];
+
+    public function produtos(){
+        return $this->hasMany(Produto::class);
+    }
 }

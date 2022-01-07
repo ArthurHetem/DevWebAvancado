@@ -12,7 +12,7 @@
         <input type="text" name="descricao" placeholder="Descrição" class="borda-preta" value="{{ $produto->descricao ?? old('descricao') }}">
         {{ $errors->has('descricao') ? $errors->first('descricao') : '' }}
         <input type="text" name="peso" placeholder="Peso" class="borda-preta" value="{{ $produto->peso ?? old('peso') }}">
-        {{ $errors->has('peso') ? $errors->first('') : '' }}
+        {{ $errors->has('peso') ? $errors->first('peso') : '' }}
         <select name="unidade_id" >
             <option>-- Selecione a unidade --</option>
             @foreach($unidades as $unidade)
