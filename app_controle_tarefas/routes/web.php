@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,12 +18,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('verified');
 
-Route::resource('/tarefa', 'App\Http\Controllers\TarefaController');
+Route::resource('/tarefa', 'App\Http\Controllers\TarefaController')->middleware('verified');
 
 Route::get('mensagem-teste', function () {
     return new App\Mail\MensagemTesteMail();
+    //Mail::to('arthurhetemgames@gmail.com')->send(new App\Mail\MensagemTesteMail());
 });
+
+Route::get('/tarefa/exportacao/{extensao}', 'App\Http\Controllers\TarefaController@exportacao')->name('tarefa.exportacao')->middleware('verified');
