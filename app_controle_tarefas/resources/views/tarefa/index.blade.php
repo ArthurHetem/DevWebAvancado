@@ -7,22 +7,18 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-8">
+                        <div class="col-6">
                             Listagem de Tarefas
                         </div>
-                        <div class="col-1">
+                        <div class="col-6">
                             <a href="{{ route('tarefa.exportacao', ['extensao' => 'xlsx']) }}">XLSX</a>
-                        </div>
-                        <div class="col-1">
-                            <a href="{{ route('tarefa.exportacao', ['extensao' => 'csv']) }}">CSV</a></div>
-                        </div>
-                        <div class="col-1">
-                            <a href="{{ route('tarefa.exportacao', ['extensao' => 'pdf']) }}">PDF</a></div>
-                        </div>
-                        <div class="col-1">
-                            <a href="{{ route('tarefa.create') }}">Novo</a></div>
+                            <a href="{{ route('tarefa.exportacao', ['extensao' => 'csv']) }}">CSV</a>
+                            <a href="{{ route('tarefa.exportacao', ['extensao' => 'pdf']) }}">PDF</a>
+                            <a href="{{ route('tarefa.exportar') }}" target="_blank">PDF V2</a>
+                            <a href="{{ route('tarefa.create') }}">Novo</a>
                         </div>
                     </div>
+                </div>
                 <div class="card-body">
                     <table class="table">
                         <thead>
