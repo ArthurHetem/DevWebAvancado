@@ -25,8 +25,8 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function() {
     Route::apiResource('locacao', 'App\Http\Controllers\LocacaoController');
     Route::apiResource('marca', 'App\Http\Controllers\MarcaController');
     Route::apiResource('modelo', 'App\Http\Controllers\ModeloController');
-    Route::post('refresh', 'Auth\AuthController@refresh');
-    Route::post('me', 'Auth\AuthController@me');
-    Route::post('logout', 'Auth\AuthController@logout');
+    Route::post('refresh', 'App\Http\Controllers\AuthController@refresh');
+    Route::post('me', 'App\Http\Controllers\AuthController@me');
+    Route::post('logout', 'App\Http\Controllers\AuthController@logout');
 });
-Route::post('login', 'Auth\AuthController@login');
+Route::post('login', 'App\Http\Controllers\AuthController@login');
