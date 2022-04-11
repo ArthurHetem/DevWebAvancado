@@ -5745,6 +5745,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['titulos', 'dados']
 });
@@ -29468,7 +29476,7 @@ var render = function () {
                       _c("table-component", {
                         attrs: {
                           dados: _vm.marcas,
-                          titulos: ["ID", "Nome", "Imagem"],
+                          titulos: ["id", "nome", "imagem"],
                         },
                       }),
                     ]
@@ -29749,9 +29757,15 @@ var render = function () {
       _c(
         "tr",
         _vm._l(_vm.titulos, function (t, key) {
-          return _c("th", { key: key, attrs: { scope: "col" } }, [
-            _vm._v(_vm._s(t)),
-          ])
+          return _c(
+            "th",
+            {
+              key: key,
+              staticClass: "text-uppercase",
+              attrs: { scope: "col" },
+            },
+            [_vm._v(_vm._s(t))]
+          )
         }),
         0
       ),
@@ -29759,18 +29773,31 @@ var render = function () {
     _vm._v(" "),
     _c(
       "tbody",
-      _vm._l(_vm.dados, function (m) {
-        return _c("tr", { key: m.id }, [
-          _c("th", { attrs: { scope: "row" } }, [_vm._v(_vm._s(m.id))]),
-          _vm._v(" "),
-          _c("td", [_vm._v(_vm._s(m.nome))]),
-          _vm._v(" "),
-          _c("td", [
-            _c("img", {
-              attrs: { src: "/storage/" + m.imagem, width: "30", height: "30" },
-            }),
-          ]),
-        ])
+      _vm._l(_vm.dados, function (obj) {
+        return _c(
+          "tr",
+          { key: obj.id },
+          _vm._l(obj, function (valor, chave) {
+            return _vm.titulos.includes(chave)
+              ? _c("td", { key: chave }, [
+                  chave == "imagem"
+                    ? _c("span", [
+                        _c("img", {
+                          attrs: { src: valor, width: "30", height: "30" },
+                        }),
+                      ])
+                    : _c("span", [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(valor) +
+                            "\n                "
+                        ),
+                      ]),
+                ])
+              : _vm._e()
+          }),
+          0
+        )
       }),
       0
     ),
