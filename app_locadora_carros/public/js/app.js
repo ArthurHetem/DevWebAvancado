@@ -5268,8 +5268,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  data: 'tipoAlerta'
+  props: ['tipo', 'titulo', 'detalhes'],
+  computed: {
+    estilo: function estilo() {
+      return "alert alert-" + this.tipo;
+    }
+  }
 });
 
 /***/ }),
@@ -5592,12 +5605,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       urlBase: 'http://localhost:8002/api/v1/marca',
       nomeMarca: '',
-      arquivoImagem: []
+      arquivoImagem: [],
+      transacaoStatus: '',
+      transacaoDetalhes: [],
+      marcas: []
     };
   },
   computed: {
@@ -5608,10 +5628,21 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    carregarLista: function carregarLista() {
+      var _this = this;
+
+      axios.get(this.urlBase).then(function (response) {
+        _this.Marcas = response.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
     carregarImagem: function carregarImagem(e) {
       this.arquivoImagem = e.target.files;
     },
     cadastrarMarca: function cadastrarMarca() {
+      var _this2 = this;
+
       var formData = new FormData();
       formData.append('nome', this.nomeMarca);
       formData.append('imagem', this.arquivoImagem[0]);
@@ -5624,10 +5655,16 @@ __webpack_require__.r(__webpack_exports__);
       };
       axios.post(this.urlBase, formData, config).then(function (response) {
         console.log(response);
+        _this2.transacaoStatus = 'Adicionado';
       })["catch"](function (error) {
         console.log(error);
+        _this2.transacaoStatus = 'Erro';
+        _this2.transacaoDetalhes = error.response;
       });
     }
+  },
+  mounted: function mounted() {
+    this.carregarLista();
   }
 });
 
@@ -28907,8 +28944,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render),
 /* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
 /* harmony export */ });
-var render = function () {}
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { class: _vm.estilo, attrs: { role: "alert" } }, [
+    _c("h3", [_vm._v(_vm._s(_vm.titulo))]),
+    _vm._v(" "),
+    _vm.detalhes.data.message
+      ? _c("span", [_vm._v(_vm._s(_vm.detalhes.data.message))])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.detalhes.data.id
+      ? _c("span", [_vm._v(_vm._s("Id do registro: " + _vm.detalhes.data.id))])
+      : _vm._e(),
+    _vm._v(" "),
+    _c("hr"),
+    _vm._v(" "),
+    _vm.detalhes.data.errors
+      ? _c(
+          "ul",
+          _vm._l(_vm.detalhes.data.errors, function (erro, key) {
+            return _c("li", { key: key }, [
+              _vm._v("\n            " + _vm._s(erro[0]) + "\n        "),
+            ])
+          }),
+          0
+        )
+      : _vm._e(),
+  ])
+}
 var staticRenderFns = []
+render._withStripped = true
 
 
 
@@ -29437,6 +29504,27 @@ var render = function () {
       _c("modal-component", {
         attrs: { id: "modalMarca", titulo: "Adicionar Marca" },
         scopedSlots: _vm._u([
+          {
+            key: "alertas",
+            fn: function () {
+              return [
+                _vm.transacaoStatus == "Adicionado"
+                  ? _c("alert-component", { attrs: { tipo: "success" } })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.transacaoStatus == "Erro"
+                  ? _c("alert-component", {
+                      attrs: {
+                        tipo: "danger",
+                        detalhes: _vm.transacaoDetalhes,
+                        titulo: "Erro ao tentar cadastrar a marca",
+                      },
+                    })
+                  : _vm._e(),
+              ]
+            },
+            proxy: true,
+          },
           {
             key: "conteudo",
             fn: function () {
