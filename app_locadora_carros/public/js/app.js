@@ -5609,6 +5609,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -5638,8 +5641,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       };
       axios.get(this.urlBase, config).then(function (response) {
-        _this.marcas = response.data;
-        console.log(response.data);
+        _this.marcas = response.data; //console.log(this.marcas)
       })["catch"](function (error) {
         console.log(error);
       });
@@ -5743,23 +5745,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['titulo', 'id', 'idHelp', 'textoAjuda']
+  props: ['titulos', 'dados']
 });
 
 /***/ }),
@@ -29477,7 +29464,14 @@ var render = function () {
                 {
                   key: "conteudo",
                   fn: function () {
-                    return [_c("table-component")]
+                    return [
+                      _c("table-component", {
+                        attrs: {
+                          dados: _vm.marcas,
+                          titulos: ["ID", "Nome", "Imagem"],
+                        },
+                      }),
+                    ]
                   },
                   proxy: true,
                 },
@@ -29750,58 +29744,39 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("table", { staticClass: "table table-hover" }, [
+    _c("thead", [
+      _c(
+        "tr",
+        _vm._l(_vm.titulos, function (t, key) {
+          return _c("th", { key: key, attrs: { scope: "col" } }, [
+            _vm._v(_vm._s(t)),
+          ])
+        }),
+        0
+      ),
+    ]),
+    _vm._v(" "),
+    _c(
+      "tbody",
+      _vm._l(_vm.dados, function (m) {
+        return _c("tr", { key: m.id }, [
+          _c("th", { attrs: { scope: "row" } }, [_vm._v(_vm._s(m.id))]),
+          _vm._v(" "),
+          _c("td", [_vm._v(_vm._s(m.nome))]),
+          _vm._v(" "),
+          _c("td", [
+            _c("img", {
+              attrs: { src: "/storage/" + m.imagem, width: "30", height: "30" },
+            }),
+          ]),
+        ])
+      }),
+      0
+    ),
+  ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("table", { staticClass: "table table-hover" }, [
-      _c("thead", [
-        _c("tr", [
-          _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
-          _vm._v(" "),
-          _c("th", { attrs: { scope: "col" } }, [_vm._v("First")]),
-          _vm._v(" "),
-          _c("th", { attrs: { scope: "col" } }, [_vm._v("Last")]),
-          _vm._v(" "),
-          _c("th", { attrs: { scope: "col" } }, [_vm._v("Handle")]),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("tbody", [
-        _c("tr", [
-          _c("th", { attrs: { scope: "row" } }, [_vm._v("1")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Mark")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Otto")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("@mdo")]),
-        ]),
-        _vm._v(" "),
-        _c("tr", [
-          _c("th", { attrs: { scope: "row" } }, [_vm._v("2")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Jacob")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Thornton")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("@fat")]),
-        ]),
-        _vm._v(" "),
-        _c("tr", [
-          _c("th", { attrs: { scope: "row" } }, [_vm._v("3")]),
-          _vm._v(" "),
-          _c("td", { attrs: { colspan: "2" } }, [_vm._v("Larry the Bird")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("@twitter")]),
-        ]),
-      ]),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
