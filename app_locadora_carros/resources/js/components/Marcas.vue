@@ -101,9 +101,16 @@
             },
         methods: {
             carregarLista() {
-                axios.get(this.urlBase)
+                let config = {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': this.token
+                    }
+                }
+                axios.get(this.urlBase, config)
                     .then(response => {
-                        this.Marcas = response.data
+                        this.marcas = response.data
+                        console.log(response.data)
                     }).catch(error => {
                         console.log(error)
                     })

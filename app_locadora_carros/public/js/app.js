@@ -5631,8 +5631,15 @@ __webpack_require__.r(__webpack_exports__);
     carregarLista: function carregarLista() {
       var _this = this;
 
-      axios.get(this.urlBase).then(function (response) {
-        _this.Marcas = response.data;
+      var config = {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': this.token
+        }
+      };
+      axios.get(this.urlBase, config).then(function (response) {
+        _this.marcas = response.data;
+        console.log(response.data);
       })["catch"](function (error) {
         console.log(error);
       });
