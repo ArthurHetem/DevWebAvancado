@@ -5630,6 +5630,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -5845,8 +5848,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['titulos', 'dados'],
+  props: ['titulos', 'dados', 'visualizar', 'atualizar', 'remover'],
   computed: {
     dadosFiltrados: function dadosFiltrados() {
       var campos = Object.keys(this.titulos);
@@ -29703,6 +29712,9 @@ var render = function () {
                       _c("table-component", {
                         attrs: {
                           dados: _vm.marcas.data,
+                          visualizar: true,
+                          atualizar: true,
+                          remover: true,
                           titulos: {
                             id: { titulo: "ID", tipo: "texto" },
                             nome: { titulo: "Nome", tipo: "texto" },
@@ -30061,12 +30073,16 @@ var render = function () {
     _c("thead", [
       _c(
         "tr",
-        _vm._l(_vm.titulos, function (t, key) {
-          return _c("th", { key: key, attrs: { scope: "col" } }, [
-            _vm._v(_vm._s(t.titulo)),
-          ])
-        }),
-        0
+        [
+          _vm._l(_vm.titulos, function (t, key) {
+            return _c("th", { key: key, attrs: { scope: "col" } }, [
+              _vm._v(_vm._s(t.titulo)),
+            ])
+          }),
+          _vm._v(" "),
+          _vm.visualizar || _vm.atualizar || _vm.remover ? _c("th") : _vm._e(),
+        ],
+        2
       ),
     ]),
     _vm._v(" "),
@@ -30076,31 +30092,85 @@ var render = function () {
         return _c(
           "tr",
           { key: chave },
-          _vm._l(obj, function (valor, chaveValor) {
-            return _c("td", { key: chaveValor }, [
-              _vm.titulos[chaveValor].tipo == "texto"
-                ? _c("span", [_vm._v(_vm._s(valor))])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.titulos[chaveValor].tipo == "data"
-                ? _c("span", [_vm._v(_vm._s("..." + valor))])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.titulos[chaveValor].tipo == "imagem"
-                ? _c("span", [
-                    _c("img", {
-                      attrs: {
-                        src: "/storage/" + valor,
-                        alt: valor,
-                        width: "30",
-                        height: "30",
-                      },
-                    }),
-                  ])
-                : _vm._e(),
-            ])
-          }),
-          0
+          [
+            _vm._l(obj, function (valor, chaveValor) {
+              return _c("td", { key: chaveValor }, [
+                _vm.titulos[chaveValor].tipo == "texto"
+                  ? _c("span", [_vm._v(_vm._s(valor))])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.titulos[chaveValor].tipo == "data"
+                  ? _c("span", [_vm._v(_vm._s("..." + valor))])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.titulos[chaveValor].tipo == "imagem"
+                  ? _c("span", [
+                      _c("img", {
+                        attrs: {
+                          src: "/storage/" + valor,
+                          alt: valor,
+                          width: "30",
+                          height: "30",
+                        },
+                      }),
+                    ])
+                  : _vm._e(),
+              ])
+            }),
+            _vm._v(" "),
+            _vm.visualizar || _vm.atualizar || _vm.remover
+              ? _c("td", [
+                  _vm.visualizar
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-outline-primary",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function ($event) {
+                              return _vm.editar(obj)
+                            },
+                          },
+                        },
+                        [_vm._v("Visualizar")]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.atualizar
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-outline-primary",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function ($event) {
+                              return _vm.editar(obj)
+                            },
+                          },
+                        },
+                        [_vm._v("Editar")]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.remover
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-outline-danger",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function ($event) {
+                              return _vm.excluir(obj)
+                            },
+                          },
+                        },
+                        [_vm._v("Excluir")]
+                      )
+                    : _vm._e(),
+                ])
+              : _vm._e(),
+          ],
+          2
         )
       }),
       0

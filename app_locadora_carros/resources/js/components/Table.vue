@@ -2,7 +2,8 @@
     <table class="table table-hover">
         <thead>
             <tr>
-            <th scope="col" v-for="t, key in titulos" :key="key">{{ t.titulo }}</th>
+                <th scope="col" v-for="t, key in titulos" :key="key">{{ t.titulo }}</th>
+                <th v-if="visualizar || atualizar || remover"></th>
             </tr>
         </thead>
         <tbody>
@@ -13,6 +14,11 @@
                     <span v-if="titulos[chaveValor].tipo == 'imagem'">
                         <img :src="'/storage/'+valor" :alt="valor" width="30" height="30">
                     </span>
+                </td>
+                <td v-if="visualizar || atualizar || remover">
+                    <button v-if="visualizar" type="button" class="btn btn-sm btn-outline-primary" @click="editar(obj)">Visualizar</button>
+                    <button v-if="atualizar" type="button" class="btn btn-sm btn-outline-primary" @click="editar(obj)">Editar</button>
+                    <button v-if="remover" type="button" class="btn btn-sm btn-outline-danger" @click="excluir(obj)">Excluir</button>
                 </td>
             </tr>
             <!-- <tr v-for="obj in dados" :key="obj.id">
@@ -34,7 +40,7 @@
 
 <script>
     export default {
-        props: ['titulos', 'dados'],
+        props: ['titulos', 'dados', 'visualizar', 'atualizar', 'remover'],
         computed: {
             dadosFiltrados(){
                 let campos = Object.keys(this.titulos)
