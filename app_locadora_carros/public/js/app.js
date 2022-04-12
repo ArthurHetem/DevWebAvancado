@@ -5655,6 +5655,12 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    paginacao: function paginacao(l) {
+      if (l.url) {
+        this.urlBase = l.url;
+        this.carregarLista();
+      }
+    },
     carregarLista: function carregarLista() {
       var _this = this;
 
@@ -29650,11 +29656,20 @@ var render = function () {
                               _vm._l(_vm.marcas.links, function (l, key) {
                                 return _c(
                                   "li",
-                                  { key: key, staticClass: "page-item" },
+                                  {
+                                    key: key,
+                                    class: l.active
+                                      ? "page-item active"
+                                      : "page-item",
+                                    on: {
+                                      click: function ($event) {
+                                        return _vm.paginacao(l)
+                                      },
+                                    },
+                                  },
                                   [
                                     _c("a", {
                                       staticClass: "page-link",
-                                      attrs: { href: l.url },
                                       domProps: { innerHTML: _vm._s(l.label) },
                                     }),
                                   ]
@@ -29935,7 +29950,12 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("nav", { attrs: { "aria-label": "Page navigation example" } }, [
-    _c("ul", { staticClass: "pagination" }, [_vm._t("default")], 2),
+    _c(
+      "ul",
+      { staticClass: "pagination", staticStyle: { cursor: "pointer" } },
+      [_vm._t("default")],
+      2
+    ),
   ])
 }
 var staticRenderFns = []
