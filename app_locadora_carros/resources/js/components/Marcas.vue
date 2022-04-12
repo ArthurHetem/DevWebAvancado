@@ -52,7 +52,18 @@
                         </table-component>
                     </template>
                     <template v-slot:rodape>
-                        <button type="submit" class="btn btn-sm float-end btn-primary" data-bs-toggle="modal" data-bs-target="#modalMarca">Adicionar</button>
+                        <div class="row">
+                            <div class="col-10">
+                                <paginate-component>
+                                    <li v-for="l, key in marcas.links" :key="key" class="page-item">
+                                        <a class="page-link" :href="l.url" v-html="l.label"></a>
+                                    </li>
+                                </paginate-component>
+                            </div>
+                            <div class="col-2">
+                                <button type="submit" class="btn btn-sm float-end btn-primary" data-bs-toggle="modal" data-bs-target="#modalMarca">Adicionar</button>
+                            </div>
+                        </div>
                     </template>
                 </card-component>
                 <!-- FIM CARD RELACAO DE MARCAS -->
@@ -92,7 +103,9 @@
 </template>
 
 <script>
+import Paginate from './Paginate.vue'
     export default {
+  components: { Paginate },
         data() {
             return {
                 urlBase: 'http://localhost:8002/api/v1/marca',
