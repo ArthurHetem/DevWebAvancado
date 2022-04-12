@@ -5644,6 +5644,10 @@ __webpack_require__.r(__webpack_exports__);
       transacaoDetalhes: [],
       marcas: {
         data: []
+      },
+      busca: {
+        id: '',
+        nome: ''
       }
     };
   },
@@ -5655,6 +5659,21 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    pesquisar: function pesquisar() {
+      var filtro = '';
+
+      for (var chave in this.busca) {
+        if (this.busca[chave]) {
+          if (filtro != '') {
+            filtro += ';';
+          }
+
+          filtro += chave + ':like:' + this.busca[chave];
+        }
+      }
+
+      console.log(filtro);
+    },
     paginacao: function paginacao(l) {
       if (l.url) {
         this.urlBase = l.url;
@@ -29544,12 +29563,33 @@ var render = function () {
                                 },
                                 [
                                   _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.busca.id,
+                                        expression: "busca.id",
+                                      },
+                                    ],
                                     staticClass: "form-control",
                                     attrs: {
                                       type: "number",
                                       id: "inputId",
                                       "aria-describedby": "idHelp",
                                       placeholder: "ID",
+                                    },
+                                    domProps: { value: _vm.busca.id },
+                                    on: {
+                                      input: function ($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.busca,
+                                          "id",
+                                          $event.target.value
+                                        )
+                                      },
                                     },
                                   }),
                                 ]
@@ -29577,12 +29617,33 @@ var render = function () {
                                 },
                                 [
                                   _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.busca.nome,
+                                        expression: "busca.nome",
+                                      },
+                                    ],
                                     staticClass: "form-control",
                                     attrs: {
                                       type: "text",
                                       id: "inputNome",
                                       "aria-describedby": "nomeHelp",
                                       placeholder: "Nome",
+                                    },
+                                    domProps: { value: _vm.busca.nome },
+                                    on: {
+                                      input: function ($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.busca,
+                                          "nome",
+                                          $event.target.value
+                                        )
+                                      },
                                     },
                                   }),
                                 ]
@@ -29606,6 +29667,11 @@ var render = function () {
                           {
                             staticClass: "btn btn-sm btn-primary",
                             attrs: { type: "submit" },
+                            on: {
+                              click: function ($event) {
+                                return _vm.pesquisar()
+                              },
+                            },
                           },
                           [_vm._v("Buscar")]
                         ),

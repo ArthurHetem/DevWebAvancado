@@ -13,7 +13,7 @@
                                         id="inputId"
                                         id-help="idHelp"
                                         texto-ajuda="Opcional. Informe o ID da marca">
-                                            <input type="number" class="form-control" id="inputId" aria-describedby="idHelp" placeholder="ID">
+                                            <input v-model="busca.id" type="number" class="form-control" id="inputId" aria-describedby="idHelp" placeholder="ID">
                                     </input-container-component>
                                 </div>
                             </div>
@@ -24,7 +24,7 @@
                                         id="inputNome"
                                         id-help="nomeHelp"
                                         texto-ajuda="Opcional. Informe o nome da marca">
-                                            <input type="text" class="form-control" id="inputNome" aria-describedby="nomeHelp" placeholder="Nome">
+                                            <input v-model="busca.nome" type="text" class="form-control" id="inputNome" aria-describedby="nomeHelp" placeholder="Nome">
                                     </input-container-component>
                                 </div>
                             </div>
@@ -32,7 +32,7 @@
                     </template>
                     <template v-slot:rodape>
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-sm btn-primary">Buscar</button>
+                            <button type="submit" class="btn btn-sm btn-primary" @click="pesquisar()">Buscar</button>
                         </div>
                     </template>
                 </card-component>
@@ -114,6 +114,7 @@ import Paginate from './Paginate.vue'
                 transacaoStatus: '',
                 transacaoDetalhes: [],
                 marcas: { data: [] },
+                busca: { id: '', nome: ''},
             }
         },
         computed: {
@@ -122,6 +123,19 @@ import Paginate from './Paginate.vue'
                 }
             },
         methods: {
+            pesquisar() {
+                let filtro = ''
+                for (let chave in this.busca) {
+                   if(this.busca[chave]){
+                    if (filtro != '') {
+                        filtro += ';'
+                    }
+
+                        filtro += chave + ':like:' + this.busca[chave]
+                    }
+                }
+                console.log(filtro)
+            },
             paginacao(l){
                 if(l.url){
                     this.urlBase = l.url
