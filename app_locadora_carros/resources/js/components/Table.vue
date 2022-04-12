@@ -16,24 +16,11 @@
                     </span>
                 </td>
                 <td v-if="visualizar || atualizar || remover">
-                    <button v-if="visualizar" type="button" class="btn btn-sm btn-outline-primary" @click="editar(obj)">Visualizar</button>
+                    <button v-if="visualizar" type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalMarcaVisualizar">Visualizar</button>
                     <button v-if="atualizar" type="button" class="btn btn-sm btn-outline-primary" @click="editar(obj)">Editar</button>
                     <button v-if="remover" type="button" class="btn btn-sm btn-outline-danger" @click="excluir(obj)">Excluir</button>
                 </td>
             </tr>
-            <!-- <tr v-for="obj in dados" :key="obj.id">
-                <td v-if="titulos.includes(chave)" v-for="valor, chave in obj" :key="chave">
-                    <span v-if="chave == 'imagem'">
-                        <img :src="valor" width="30" height="30">
-                    </span>
-                    <span v-else>
-                        {{ valor }}
-                    </span>
-                </td>
-                <th scope="row">{{ m.id }}</th>
-                <td>{{ m.nome }}</td>
-                <td><img :src="'/storage/' + m.imagem" width="30" height="30"></td>
-            </tr> -->
         </tbody>
     </table>
 </template>

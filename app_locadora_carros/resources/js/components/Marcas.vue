@@ -72,6 +72,7 @@
                 <!-- FIM CARD RELACAO DE MARCAS -->
             </div>
         </div>
+        <!-- INICIO MODAL ADICIONAR MARCA -->
         <modal-component id="modalMarca" titulo="Adicionar Marca">
             <template v-slot:alertas>
                 <alert-component v-if="transacaoStatus == 'Adicionado'" tipo="success"></alert-component>
@@ -102,6 +103,19 @@
                 <button type="button" class="btn btn-primary" @click="cadastrarMarca()">Salvar</button>
             </template>
         </modal-component>
+        <!-- FIM MODAL ADICIONAR MARCA -->
+        <!-- INICIO MODAL ADICIONAR MARCA -->
+        <modal-component id="modalMarcaVisualizar" titulo="Visualizar Marca">
+            <template v-slot:alertas>
+            </template>
+            <template v-slot:conteudo>
+                Teste
+            </template>
+            <template v-slot:rodape>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </template>
+        </modal-component>
+        <!-- FIM MODAL ADICIONAR MARCA -->
     </div>
 </template>
 
