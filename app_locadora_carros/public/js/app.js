@@ -5659,6 +5659,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5692,6 +5710,25 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    remover: function remover() {
+      var _this = this;
+
+      var confirmacao = confirm('Deseja realmente remover essa marca?');
+      if (!confirmacao) return false;
+      var formData = new FormData();
+      formData.append('_method', 'DELETE');
+      var config = {
+        headers: {
+          'Authorization': this.token,
+          'Accept': 'application/json'
+        }
+      };
+      var url = this.urlBase + '/' + this.$store.state.item.id;
+      axios.post(url, formData, config).then(function (response) {})["catch"](function (errors) {
+        _this.transacaoStatus = 'Erro';
+        _this.transacaoDetalhes = error.response.data.detalhes;
+      });
+    },
     pesquisar: function pesquisar() {
       var filtro = '';
 
@@ -5721,7 +5758,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     carregarLista: function carregarLista() {
-      var _this = this;
+      var _this2 = this;
 
       var url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro;
       console.log(url);
@@ -5732,7 +5769,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       };
       axios.get(url, config).then(function (response) {
-        _this.marcas = response.data; //console.log(this.marcas)
+        _this2.marcas = response.data; //console.log(this.marcas)
       })["catch"](function (error) {
         console.log(error);
       });
@@ -5741,7 +5778,7 @@ __webpack_require__.r(__webpack_exports__);
       this.arquivoImagem = e.target.files;
     },
     cadastrarMarca: function cadastrarMarca() {
-      var _this2 = this;
+      var _this3 = this;
 
       var formData = new FormData();
       formData.append('nome', this.nomeMarca);
@@ -5755,11 +5792,11 @@ __webpack_require__.r(__webpack_exports__);
       };
       axios.post(this.urlBase, formData, config).then(function (response) {
         console.log(response);
-        _this2.transacaoStatus = 'Adicionado';
+        _this3.transacaoStatus = 'Adicionado';
       })["catch"](function (error) {
         console.log(error);
-        _this2.transacaoStatus = 'Erro';
-        _this2.transacaoDetalhes = error.response;
+        _this3.transacaoStatus = 'Erro';
+        _this3.transacaoDetalhes = error.response;
       });
     }
   },
@@ -29749,7 +29786,11 @@ var render = function () {
                             dataTarget: "#modalMarcaVisualizar",
                           },
                           atualizar: true,
-                          remover: true,
+                          remover: {
+                            visivel: true,
+                            dataToggle: "modal",
+                            dataTarget: "#modalMarcaRemover",
+                          },
                           titulos: {
                             id: { titulo: "ID", tipo: "texto" },
                             nome: { titulo: "Nome", tipo: "texto" },
@@ -30119,6 +30160,116 @@ var render = function () {
           },
         ]),
       }),
+      _vm._v(" "),
+      _c("modal-component", {
+        attrs: { id: "modalMarcaRemover", titulo: "Remover Marca" },
+        scopedSlots: _vm._u([
+          {
+            key: "alertas",
+            fn: function () {
+              return undefined
+            },
+            proxy: true,
+          },
+          {
+            key: "conteudo",
+            fn: function () {
+              return [
+                _c("input-container-component", { attrs: { titulo: "ID" } }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.$store.state.item.id,
+                        expression: "$store.state.item.id",
+                      },
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", disabled: "" },
+                    domProps: { value: _vm.$store.state.item.id },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.$store.state.item,
+                          "id",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "input-container-component",
+                  { attrs: { titulo: "Nome da Marca" } },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.$store.state.item.nome,
+                          expression: "$store.state.item.nome",
+                        },
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", disabled: "" },
+                      domProps: { value: _vm.$store.state.item.nome },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.$store.state.item,
+                            "nome",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+                  ]
+                ),
+              ]
+            },
+            proxy: true,
+          },
+          {
+            key: "rodape",
+            fn: function () {
+              return [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-bs-dismiss": "modal" },
+                  },
+                  [_vm._v("Fechar")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.remover()
+                      },
+                    },
+                  },
+                  [_vm._v("Remover")]
+                ),
+              ]
+            },
+            proxy: true,
+          },
+        ]),
+      }),
     ],
     1
   )
@@ -30259,7 +30410,7 @@ var render = function () {
             ])
           }),
           _vm._v(" "),
-          _vm.visualizar.visivel || _vm.atualizar || _vm.remover
+          _vm.visualizar.visivel || _vm.atualizar || _vm.remover.visivel
             ? _c("th")
             : _vm._e(),
         ],
@@ -30299,7 +30450,7 @@ var render = function () {
               ])
             }),
             _vm._v(" "),
-            _vm.visualizar.visivel || _vm.atualizar || _vm.remover
+            _vm.visualizar.visivel || _vm.atualizar || _vm.remover.visivel
               ? _c("td", [
                   _vm.visualizar.visivel
                     ? _c(
@@ -30342,10 +30493,14 @@ var render = function () {
                         "button",
                         {
                           staticClass: "btn btn-sm btn-outline-danger",
-                          attrs: { type: "button" },
+                          attrs: {
+                            type: "button",
+                            "data-bs-toggle": _vm.remover.dataToggle,
+                            "data-bs-target": _vm.remover.dataTarget,
+                          },
                           on: {
                             click: function ($event) {
-                              return _vm.excluir(obj)
+                              return _vm.setStore(obj)
                             },
                           },
                         },

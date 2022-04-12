@@ -44,7 +44,7 @@
                             :dados="marcas.data"
                             :visualizar="{visivel: true, dataToggle: 'modal', dataTarget: '#modalMarcaVisualizar'}"
                             :atualizar="true"
-                            :remover="true"
+                            :remover="{visivel: true, dataToggle: 'modal', dataTarget: '#modalMarcaRemover'}"
                             :titulos="{
                                 id:{titulo: 'ID', tipo: 'texto'},
                                 nome: {titulo: 'Nome', tipo: 'texto'},
@@ -104,7 +104,7 @@
             </template>
         </modal-component>
         <!-- FIM MODAL ADICIONAR MARCA -->
-        <!-- INICIO MODAL ADICIONAR MARCA -->
+        <!-- INICIO MODAL VISUALIZAR MARCA -->
         <modal-component id="modalMarcaVisualizar" titulo="Visualizar Marca">
             <template v-slot:alertas>
             </template>
@@ -126,7 +126,25 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
             </template>
         </modal-component>
-        <!-- FIM MODAL ADICIONAR MARCA -->
+        <!-- FIM MODAL VISUALIZAR MARCA -->
+        <!-- INICIO MODAL REMOÇÃO MARCA -->
+        <modal-component id="modalMarcaRemover" titulo="Remover Marca">
+            <template v-slot:alertas>
+            </template>
+            <template v-slot:conteudo>
+                <input-container-component titulo="ID">
+                        <input type="text" class="form-control" disabled v-model="$store.state.item.id">
+                </input-container-component>
+                <input-container-component titulo="Nome da Marca">
+                        <input type="text" class="form-control" disabled v-model="$store.state.item.nome">
+                </input-container-component>
+            </template>
+            <template v-slot:rodape>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-danger" @click="remover()">Remover</button>
+            </template>
+        </modal-component>
+        <!-- FIM MODAL REMOÇÃO MARCA -->
     </div>
 </template>
 
@@ -154,6 +172,32 @@ import Paginate from './Paginate.vue'
                 }
             },
         methods: {
+            remover(){
+                let confirmacao = confirm('Deseja realmente remover essa marca?')
+
+                if(!confirmacao) return false
+
+                let formData = new FormData();
+                formData.append('_method', 'DELETE')
+
+                let config = {
+                    headers: {
+                        'Authorization': this.token,
+                        'Accept': 'application/json'
+                    }
+                }
+
+                let url = this.urlBase + '/' + this.$store.state.item.id
+
+                axios.post(url, formData, config)
+                    .then(response => {
+
+                    })
+                    .catch(errors => {
+                        this.transacaoStatus = 'Erro'
+                        this.transacaoDetalhes = error.response.data.detalhes
+                    })
+            },
             pesquisar() {
                 let filtro = ''
                 for (let chave in this.busca) {
