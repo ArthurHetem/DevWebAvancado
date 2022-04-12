@@ -5639,16 +5639,18 @@ __webpack_require__.r(__webpack_exports__);
     return {
       urlBase: 'http://localhost:8002/api/v1/marca',
       nomeMarca: '',
-      arquivoImagem: [],
-      transacaoStatus: '',
-      transacaoDetalhes: [],
+      urlPaginacao: '',
+      urlFiltro: '',
       marcas: {
         data: []
       },
       busca: {
         id: '',
         nome: ''
-      }
+      },
+      arquivoImagem: [],
+      transacaoStatus: '',
+      transacaoDetalhes: []
     };
   },
   computed: {
@@ -5672,24 +5674,33 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
 
-      console.log(filtro);
+      if (filtro != '') {
+        this.urlFiltro = '&filtro=' + filtro;
+        this.urlPaginacao = 'page=1';
+      } else {
+        this.urlFiltro = '';
+      }
+
+      this.carregarLista();
     },
     paginacao: function paginacao(l) {
       if (l.url) {
-        this.urlBase = l.url;
+        this.urlPaginacao = l.url.split('?')[1];
         this.carregarLista();
       }
     },
     carregarLista: function carregarLista() {
       var _this = this;
 
+      var url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro;
+      console.log(url);
       var config = {
         headers: {
           'Accept': 'application/json',
           'Authorization': this.token
         }
       };
-      axios.get(this.urlBase, config).then(function (response) {
+      axios.get(url, config).then(function (response) {
         _this.marcas = response.data; //console.log(this.marcas)
       })["catch"](function (error) {
         console.log(error);
@@ -5843,12 +5854,11 @@ __webpack_require__.r(__webpack_exports__);
       this.dados.map(function (item, chave) {
         var itemFiltrado = {};
         campos.forEach(function (campo) {
-          itemFiltrado[campo] = item[campo];
-          console.log(itemFiltrado);
+          itemFiltrado[campo] = item[campo]; //console.log(itemFiltrado)
         });
         dadosFiltrados.push(itemFiltrado);
-      });
-      console.log(dadosFiltrados);
+      }); //console.log(dadosFiltrados)
+
       return dadosFiltrados;
     }
   }

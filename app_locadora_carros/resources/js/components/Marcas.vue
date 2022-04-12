@@ -110,11 +110,13 @@ import Paginate from './Paginate.vue'
             return {
                 urlBase: 'http://localhost:8002/api/v1/marca',
                 nomeMarca: '',
+                urlPaginacao :'',
+                urlFiltro : '',
+                marcas: { data: [] },
+                busca: { id: '', nome: ''},
                 arquivoImagem: [],
                 transacaoStatus: '',
                 transacaoDetalhes: [],
-                marcas: { data: [] },
-                busca: { id: '', nome: ''},
             }
         },
         computed: {
@@ -134,22 +136,30 @@ import Paginate from './Paginate.vue'
                         filtro += chave + ':like:' + this.busca[chave]
                     }
                 }
-                console.log(filtro)
+                if(filtro != ''){
+                    this.urlFiltro = '&filtro=' + filtro
+                    this.urlPaginacao = 'page=1'
+                } else {
+                    this.urlFiltro = ''
+                }
+                this.carregarLista()
             },
             paginacao(l){
                 if(l.url){
-                    this.urlBase = l.url
+                    this.urlPaginacao = l.url.split('?')[1]
                     this.carregarLista()
                 }
             },
             carregarLista() {
+                let url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro
+                console.log(url)
                 let config = {
                     headers: {
                         'Accept': 'application/json',
                         'Authorization': this.token
                     }
                 }
-                axios.get(this.urlBase, config)
+                axios.get(url, config)
                     .then(response => {
                         this.marcas = response.data
                         //console.log(this.marcas)

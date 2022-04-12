@@ -43,11 +43,11 @@
                     let itemFiltrado = {}
                     campos.forEach(campo => {
                         itemFiltrado[campo] = item[campo]
-                        console.log(itemFiltrado)
+                        //console.log(itemFiltrado)
                     })
                     dadosFiltrados.push(itemFiltrado)
                 })
-                console.log(dadosFiltrados)
+                //console.log(dadosFiltrados)
                 return dadosFiltrados
             }
         }
