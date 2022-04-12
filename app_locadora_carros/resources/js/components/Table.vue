@@ -16,7 +16,7 @@
                     </span>
                 </td>
                 <td v-if="visualizar.visivel || atualizar || remover">
-                    <button v-if="visualizar.visivel" type="button" class="btn btn-sm btn-outline-primary" :data-bs-toggle="visualizar.dataToggle" :data-bs-target="visualizar.dataTarget">Visualizar</button>
+                    <button v-if="visualizar.visivel" type="button" class="btn btn-sm btn-outline-primary" :data-bs-toggle="visualizar.dataToggle" :data-bs-target="visualizar.dataTarget" @click="setStore(obj)">Visualizar</button>
                     <button v-if="atualizar" type="button" class="btn btn-sm btn-outline-primary" @click="editar(obj)">Editar</button>
                     <button v-if="remover" type="button" class="btn btn-sm btn-outline-danger" @click="excluir(obj)">Excluir</button>
                 </td>
@@ -43,6 +43,11 @@
                 //console.log(dadosFiltrados)
                 return dadosFiltrados
             }
+        },
+        methods: {
+            setStore(obj){
+                this.$store.state.item = obj
+            },
         }
     }
 </script>

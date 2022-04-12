@@ -5525,7 +5525,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Paginate_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Paginate.vue */ "./resources/js/components/Paginate.vue");
+/* harmony import */ var _InputContainer_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./InputContainer.vue */ "./resources/js/components/InputContainer.vue");
+/* harmony import */ var _Paginate_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Paginate.vue */ "./resources/js/components/Paginate.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5648,9 +5660,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    Paginate: _Paginate_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Paginate: _Paginate_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    InputContainer: _InputContainer_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   data: function data() {
     return {
@@ -5871,6 +5885,11 @@ __webpack_require__.r(__webpack_exports__);
 
       return dadosFiltrados;
     }
+  },
+  methods: {
+    setStore: function setStore(obj) {
+      this.$store.state.item = obj;
+    }
   }
 });
 
@@ -5896,7 +5915,9 @@ window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js
 
 Vue.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 var store = new vuex__WEBPACK_IMPORTED_MODULE_0__["default"].Store({
-  state: {}
+  state: {
+    item: {}
+  }
 });
 /**
  * The following block of code may be used to automatically register your
@@ -29968,7 +29989,115 @@ var render = function () {
           {
             key: "conteudo",
             fn: function () {
-              return [_vm._v("\n            Teste\n        ")]
+              return [
+                _c("input-container-component", { attrs: { titulo: "ID" } }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.$store.state.item.id,
+                        expression: "$store.state.item.id",
+                      },
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", disabled: "" },
+                    domProps: { value: _vm.$store.state.item.id },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.$store.state.item,
+                          "id",
+                          $event.target.value
+                        )
+                      },
+                    },
+                  }),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "input-container-component",
+                  { attrs: { titulo: "Nome da Marca" } },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.$store.state.item.nome,
+                          expression: "$store.state.item.nome",
+                        },
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", disabled: "" },
+                      domProps: { value: _vm.$store.state.item.nome },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.$store.state.item,
+                            "nome",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "input-container-component",
+                  { attrs: { titulo: "Imagem" } },
+                  [
+                    _vm.$store.state.item.imagem
+                      ? _c("img", {
+                          staticClass: "img-fluid",
+                          attrs: {
+                            src: _vm.$store.state.item.imagem,
+                            alt: "Imagem da marca",
+                          },
+                        })
+                      : _vm._e(),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "input-container-component",
+                  { attrs: { titulo: "Data de Criação" } },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.$store.state.item.created_at,
+                          expression: "$store.state.item.created_at",
+                        },
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", disabled: "" },
+                      domProps: { value: _vm.$store.state.item.created_at },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.$store.state.item,
+                            "created_at",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+                  ]
+                ),
+              ]
             },
             proxy: true,
           },
@@ -30181,6 +30310,11 @@ var render = function () {
                             type: "button",
                             "data-bs-toggle": _vm.visualizar.dataToggle,
                             "data-bs-target": _vm.visualizar.dataTarget,
+                          },
+                          on: {
+                            click: function ($event) {
+                              return _vm.setStore(obj)
+                            },
                           },
                         },
                         [_vm._v("Visualizar")]

@@ -109,7 +109,18 @@
             <template v-slot:alertas>
             </template>
             <template v-slot:conteudo>
-                Teste
+                <input-container-component titulo="ID">
+                        <input type="text" class="form-control" disabled v-model="$store.state.item.id">
+                </input-container-component>
+                <input-container-component titulo="Nome da Marca">
+                        <input type="text" class="form-control" disabled v-model="$store.state.item.nome">
+                </input-container-component>
+                <input-container-component titulo="Imagem">
+                        <img :src="$store.state.item.imagem" alt="Imagem da marca" class="img-fluid" v-if="$store.state.item.imagem">
+                </input-container-component>
+                <input-container-component titulo="Data de Criação">
+                        <input type="text" class="form-control" disabled v-model="$store.state.item.created_at">
+                </input-container-component>
             </template>
             <template v-slot:rodape>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -120,9 +131,10 @@
 </template>
 
 <script>
+import InputContainer from './InputContainer.vue'
 import Paginate from './Paginate.vue'
     export default {
-  components: { Paginate },
+  components: { Paginate, InputContainer },
         data() {
             return {
                 urlBase: 'http://localhost:8002/api/v1/marca',
