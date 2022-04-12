@@ -130,8 +130,10 @@
         <!-- INICIO MODAL REMOÇÃO MARCA -->
         <modal-component id="modalMarcaRemover" titulo="Remover Marca">
             <template v-slot:alertas>
+                <alert-component v-if="$store.state.transacao.status == 'Sucesso'" tipo="success" :titulo="$store.state.transacao.mensagem" :detalhes="{data: { message: ''}}"></alert-component>
+                <alert-component v-if="$store.state.transacao.status == 'Erro'" tipo="danger" :titulo="$store.state.transacao.mensagem" :detalhes="{data: { message: ''}}"></alert-component>
             </template>
-            <template v-slot:conteudo>
+            <template v-slot:conteudo v-if="$store.state.transacao.status != 'Sucesso'">
                 <input-container-component titulo="ID">
                         <input type="text" class="form-control" disabled v-model="$store.state.item.id">
                 </input-container-component>
@@ -141,7 +143,7 @@
             </template>
             <template v-slot:rodape>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-danger" @click="remover()">Remover</button>
+                <button type="button" class="btn btn-danger" @click="remover()" v-if="$store.state.transacao.status != 'Sucesso'">Remover</button>
             </template>
         </modal-component>
         <!-- FIM MODAL REMOÇÃO MARCA -->
@@ -189,13 +191,16 @@ import Paginate from './Paginate.vue'
 
                 let url = this.urlBase + '/' + this.$store.state.item.id
 
+
                 axios.post(url, formData, config)
                     .then(response => {
-
+                        this.$store.state.transacao.status = 'Sucesso'
+                        this.$store.state.transacao.message = 'Marca removida com sucesso'
+                        this.carregarLista()
                     })
                     .catch(errors => {
-                        this.transacaoStatus = 'Erro'
-                        this.transacaoDetalhes = error.response.data.detalhes
+                        this.$store.state.transacao.status = 'Erro'
+                        this.$store.state.transacao.message = error.response.data.detalhes
                     })
             },
             pesquisar() {

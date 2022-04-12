@@ -5275,7 +5275,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['tipo', 'titulo', 'detalhes'],
   computed: {
@@ -5677,6 +5676,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5724,9 +5725,14 @@ __webpack_require__.r(__webpack_exports__);
         }
       };
       var url = this.urlBase + '/' + this.$store.state.item.id;
-      axios.post(url, formData, config).then(function (response) {})["catch"](function (errors) {
-        _this.transacaoStatus = 'Erro';
-        _this.transacaoDetalhes = error.response.data.detalhes;
+      axios.post(url, formData, config).then(function (response) {
+        _this.$store.state.transacao.status = 'Sucesso';
+        _this.$store.state.transacao.message = 'Marca removida com sucesso';
+
+        _this.carregarLista();
+      })["catch"](function (errors) {
+        _this.$store.state.transacao.status = 'Erro';
+        _this.$store.state.transacao.message = error.response.data.detalhes;
       });
     },
     pesquisar: function pesquisar() {
@@ -5953,7 +5959,11 @@ window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js
 Vue.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 var store = new vuex__WEBPACK_IMPORTED_MODULE_0__["default"].Store({
   state: {
-    item: {}
+    item: {},
+    transacao: {
+      status: '',
+      mensagem: ''
+    }
   }
 });
 /**
@@ -29209,21 +29219,13 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", { class: _vm.estilo, attrs: { role: "alert" } }, [
     _c("h3", [_vm._v(_vm._s(_vm.titulo))]),
-    _vm._v(" "),
-    _vm.detalhes.data.message
-      ? _c("span", [_vm._v(_vm._s(_vm.detalhes.data.message))])
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.detalhes.data.id
-      ? _c("span", [_vm._v(_vm._s("Id do registro: " + _vm.detalhes.data.id))])
-      : _vm._e(),
-    _vm._v(" "),
+    _vm._v("\n    " + _vm._s(_vm.detalhes.mensagem) + "\n    "),
     _c("hr"),
     _vm._v(" "),
-    _vm.detalhes.data.errors
+    _vm.detalhes.dados
       ? _c(
           "ul",
-          _vm._l(_vm.detalhes.data.errors, function (erro, key) {
+          _vm._l(_vm.detalhes.dados, function (erro, key) {
             return _c("li", { key: key }, [
               _vm._v("\n            " + _vm._s(erro[0]) + "\n        "),
             ])
@@ -30163,112 +30165,144 @@ var render = function () {
       _vm._v(" "),
       _c("modal-component", {
         attrs: { id: "modalMarcaRemover", titulo: "Remover Marca" },
-        scopedSlots: _vm._u([
-          {
-            key: "alertas",
-            fn: function () {
-              return undefined
+        scopedSlots: _vm._u(
+          [
+            {
+              key: "alertas",
+              fn: function () {
+                return [
+                  _vm.$store.state.transacao.status == "Sucesso"
+                    ? _c("alert-component", {
+                        attrs: {
+                          tipo: "success",
+                          titulo: _vm.$store.state.transacao.mensagem,
+                          detalhes: { data: { message: "" } },
+                        },
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.$store.state.transacao.status == "Erro"
+                    ? _c("alert-component", {
+                        attrs: {
+                          tipo: "danger",
+                          titulo: _vm.$store.state.transacao.mensagem,
+                          detalhes: { data: { message: "" } },
+                        },
+                      })
+                    : _vm._e(),
+                ]
+              },
+              proxy: true,
             },
-            proxy: true,
-          },
-          {
-            key: "conteudo",
-            fn: function () {
-              return [
-                _c("input-container-component", { attrs: { titulo: "ID" } }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.$store.state.item.id,
-                        expression: "$store.state.item.id",
-                      },
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", disabled: "" },
-                    domProps: { value: _vm.$store.state.item.id },
-                    on: {
-                      input: function ($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.$store.state.item,
-                          "id",
-                          $event.target.value
-                        )
-                      },
+            _vm.$store.state.transacao.status != "Sucesso"
+              ? {
+                  key: "conteudo",
+                  fn: function () {
+                    return [
+                      _c(
+                        "input-container-component",
+                        { attrs: { titulo: "ID" } },
+                        [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.$store.state.item.id,
+                                expression: "$store.state.item.id",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "text", disabled: "" },
+                            domProps: { value: _vm.$store.state.item.id },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.$store.state.item,
+                                  "id",
+                                  $event.target.value
+                                )
+                              },
+                            },
+                          }),
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "input-container-component",
+                        { attrs: { titulo: "Nome da Marca" } },
+                        [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.$store.state.item.nome,
+                                expression: "$store.state.item.nome",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "text", disabled: "" },
+                            domProps: { value: _vm.$store.state.item.nome },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.$store.state.item,
+                                  "nome",
+                                  $event.target.value
+                                )
+                              },
+                            },
+                          }),
+                        ]
+                      ),
+                    ]
+                  },
+                  proxy: true,
+                }
+              : null,
+            {
+              key: "rodape",
+              fn: function () {
+                return [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-secondary",
+                      attrs: { type: "button", "data-bs-dismiss": "modal" },
                     },
-                  }),
-                ]),
-                _vm._v(" "),
-                _c(
-                  "input-container-component",
-                  { attrs: { titulo: "Nome da Marca" } },
-                  [
-                    _c("input", {
-                      directives: [
+                    [_vm._v("Fechar")]
+                  ),
+                  _vm._v(" "),
+                  _vm.$store.state.transacao.status != "Sucesso"
+                    ? _c(
+                        "button",
                         {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.$store.state.item.nome,
-                          expression: "$store.state.item.nome",
+                          staticClass: "btn btn-danger",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function ($event) {
+                              return _vm.remover()
+                            },
+                          },
                         },
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text", disabled: "" },
-                      domProps: { value: _vm.$store.state.item.nome },
-                      on: {
-                        input: function ($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.$store.state.item,
-                            "nome",
-                            $event.target.value
-                          )
-                        },
-                      },
-                    }),
-                  ]
-                ),
-              ]
+                        [_vm._v("Remover")]
+                      )
+                    : _vm._e(),
+                ]
+              },
+              proxy: true,
             },
-            proxy: true,
-          },
-          {
-            key: "rodape",
-            fn: function () {
-              return [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-bs-dismiss": "modal" },
-                  },
-                  [_vm._v("Fechar")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-danger",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function ($event) {
-                        return _vm.remover()
-                      },
-                    },
-                  },
-                  [_vm._v("Remover")]
-                ),
-              ]
-            },
-            proxy: true,
-          },
-        ]),
+          ],
+          null,
+          true
+        ),
       }),
     ],
     1
