@@ -6055,6 +6055,15 @@ Vue.component('paginate-component', (__webpack_require__(/*! ./components/Pagina
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.filter('formataDataTempoGlobal', function (data) {
+  if (!data) return '';
+  data = data.split('T');
+  var d = data[0].split('-');
+  d = d[2] + '/' + d[1] + '/' + d[0];
+  var t = data[1].split('.');
+  t = t[0];
+  return d + ' ' + t;
+});
 var app = new Vue({
   el: '#app',
   store: store
@@ -30689,7 +30698,9 @@ var render = function () {
                   : _vm._e(),
                 _vm._v(" "),
                 _vm.titulos[chaveValor].tipo == "data"
-                  ? _c("span", [_vm._v(_vm._s("..." + valor))])
+                  ? _c("span", [
+                      _vm._v(_vm._s(_vm._f("formataDataTempoGlobal")(valor))),
+                    ])
                   : _vm._e(),
                 _vm._v(" "),
                 _vm.titulos[chaveValor].tipo == "imagem"

@@ -47,7 +47,16 @@ Vue.component('paginate-component', require('./components/Paginate.vue').default
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+Vue.filter('formataDataTempoGlobal', function(data) {
+    if(!data)return '';
 
+    data = data.split('T');
+    let d = data[0].split('-');
+    d = d[2]+'/'+d[1]+'/'+d[0];
+    let t = data[1].split('.');
+    t = t[0];
+    return d+' '+t;
+})
 const app = new Vue({
     el: '#app',
     store
