@@ -18,12 +18,16 @@ class NoticiaController extends Controller
     {
         $noticias = [];
 
-        if(Cache::has('dezprimeirasnoticias')){
-            $noticias = Cache::get('dezprimeirasnoticias');
-        } else {
-            $noticias = Noticia::orderBy('created_at')->limit(10)->get();
-            Cache::put('dezprimeirasnoticias', $noticias, 15);
-        }
+        // if(Cache::has('dezprimeirasnoticias')){
+        //     $noticias = Cache::get('dezprimeirasnoticias');
+        // } else {
+        //     $noticias = Noticia::orderBy('created_at')->limit(10)->get();
+        //     Cache::put('dezprimeirasnoticias', $noticias, 15);
+        // }
+
+        Cache::remember('dezprimeirasnoticias', 15, function() {
+            return Noticia::orderBy('created_at')->limit(10)->get();
+        });
 
         return view('noticia', ['noticias' => $noticias]);
     }
