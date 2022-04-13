@@ -6106,6 +6106,13 @@ axios.interceptors.request.use(function (config) {
 axios.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
+  if (error.response.status == 401 && error.response.data.message == 'Token has expired') {
+    axios.post('http://localhost:8002/api/refresh').then(function (response) {
+      document.cookie = 'token=' + response.data.token;
+      window.location.reload();
+    });
+  }
+
   return Promise.reject(error);
 });
 
