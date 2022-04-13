@@ -5735,13 +5735,6 @@ __webpack_require__.r(__webpack_exports__);
       transacaoDetalhes: []
     };
   },
-  computed: {
-    token: function token() {
-      return 'Bearer ' + document.cookie.split(';').find(function (row) {
-        return row.includes('token=');
-      }).split('=')[1];
-    }
-  },
   methods: {
     atualizar: function atualizar() {
       var _this = this;
@@ -5757,9 +5750,7 @@ __webpack_require__.r(__webpack_exports__);
       var url = this.urlBase + '/' + this.$store.state.item.id;
       var config = {
         headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': this.token,
-          'Accept': 'application/json'
+          'Content-Type': 'multipart/form-data'
         }
       };
       axios.post(url, formData, config).then(function (response) {
@@ -5781,14 +5772,8 @@ __webpack_require__.r(__webpack_exports__);
       if (!confirmacao) return false;
       var formData = new FormData();
       formData.append('_method', 'DELETE');
-      var config = {
-        headers: {
-          'Authorization': this.token,
-          'Accept': 'application/json'
-        }
-      };
       var url = this.urlBase + '/' + this.$store.state.item.id;
-      axios.post(url, formData, config).then(function (response) {
+      axios.post(url, formData).then(function (response) {
         _this2.$store.state.transacao.status = 'Sucesso';
         _this2.$store.state.transacao.message = 'Marca removida com sucesso';
 
@@ -5831,13 +5816,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro;
       console.log(url);
-      var config = {
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': this.token
-        }
-      };
-      axios.get(url, config).then(function (response) {
+      axios.get(url).then(function (response) {
         _this3.marcas = response.data; //console.log(this.marcas)
       })["catch"](function (error) {
         console.log(error);
@@ -5854,9 +5833,7 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('imagem', this.arquivoImagem[0]);
       var config = {
         headers: {
-          'Content-Type': 'multipart/form-data',
-          'Accept': 'application/json',
-          'Authorization': this.token
+          'Content-Type': 'multipart/form-data'
         }
       };
       axios.post(this.urlBase, formData, config).then(function (response) {
@@ -6110,6 +6087,17 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 // interceptando as requests
 
 axios.interceptors.request.use(function (config) {
+  // config.headers = {
+  //     'Authorization': this.token,
+  //     'Accept': 'application/json'
+  // }
+  var token = document.cookie.split(';').find(function (indice) {
+    return indice.includes('token=');
+  });
+  token = token.split('=')[1];
+  token = 'Bearer ' + token;
+  config.headers.Authorization = token;
+  config.headers.Accept = 'application/json';
   return config;
 }, function (error) {
   return Promise.reject(error);
