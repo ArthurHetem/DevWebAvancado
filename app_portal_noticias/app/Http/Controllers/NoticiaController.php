@@ -17,7 +17,14 @@ class NoticiaController extends Controller
     public function index()
     {
         $noticias = [];
-        //$noticias = Noticia::orderBy('created_at')->limit(10)->get();
+
+        if(Cache::has('dezprimeirasnoticias')){
+            $noticias = Cache::get('dezprimeirasnoticias');
+        } else {
+            $noticias = Noticia::orderBy('created_at')->limit(10)->get();
+            Cache::put('dezprimeirasnoticias', $noticias, 15);
+        }
+
         return view('noticia', ['noticias' => $noticias]);
     }
 
