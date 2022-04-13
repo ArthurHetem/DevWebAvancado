@@ -158,9 +158,9 @@
                     <input-container-component
                         titulo="Nome da marca"
                         id="atualizarNome"
-                        id-help="novoNomeHelp"
+                        id-help="atualizaNomeHelp"
                         texto-ajuda="Informe o nome da marca">
-                            <input type="text" class="form-control" id="novoNome" aria-describedby="novoNomeHelp" placeholder="Nome da marca" v-model="nomeMarca">
+                            <input type="text" class="form-control" id="novoNome" aria-describedby="atualizaNomeHelp" placeholder="Nome da marca" v-model="$store.state.item.nome">
                     </input-container-component>
                 </div>
                 <div class="form-group">
@@ -206,6 +206,33 @@ import Paginate from './Paginate.vue'
                 }
             },
         methods: {
+            atualizar(){
+                let formData = new FormData();
+                formData.append('_method', 'patch');
+                formData.append('nome', this.$store.state.item.nome);
+                formData.append('imagem', this.arquivoImagem[0]);
+
+                let url = this.urlBase + '/' + this.$store.state.item.id;
+
+                let config = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': this.token,
+                        'Accept': 'application/json'
+                    }
+                }
+
+                axios.post(url, formData, config)
+                    .then(response => {
+                        this.$store.state.transacao.status = 'Sucesso';
+                        this.$store.state.transacao.message = response.data;
+                        this.carregarLista();
+                    })
+                    .catch(error => {
+                        this.$store.state.transacao.status = 'Erro';
+                        this.$store.state.transacao.message = error.response.data;
+                    })
+            },
             remover(){
                 let confirmacao = confirm('Deseja realmente remover essa marca?')
 

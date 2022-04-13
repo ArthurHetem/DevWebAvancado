@@ -5743,8 +5743,33 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    remover: function remover() {
+    atualizar: function atualizar() {
       var _this = this;
+
+      var formData = new FormData();
+      formData.append('_method', 'patch');
+      formData.append('nome', this.$store.state.item.nome);
+      formData.append('imagem', this.arquivoImagem[0]);
+      var url = this.urlBase + '/' + this.$store.state.item.id;
+      var config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': this.token,
+          'Accept': 'application/json'
+        }
+      };
+      axios.post(url, formData, config).then(function (response) {
+        _this.$store.state.transacao.status = 'Sucesso';
+        _this.$store.state.transacao.message = response.data;
+
+        _this.carregarLista();
+      })["catch"](function (error) {
+        _this.$store.state.transacao.status = 'Erro';
+        _this.$store.state.transacao.message = error.response.data;
+      });
+    },
+    remover: function remover() {
+      var _this2 = this;
 
       var confirmacao = confirm('Deseja realmente remover essa marca?');
       if (!confirmacao) return false;
@@ -5758,13 +5783,13 @@ __webpack_require__.r(__webpack_exports__);
       };
       var url = this.urlBase + '/' + this.$store.state.item.id;
       axios.post(url, formData, config).then(function (response) {
-        _this.$store.state.transacao.status = 'Sucesso';
-        _this.$store.state.transacao.message = 'Marca removida com sucesso';
+        _this2.$store.state.transacao.status = 'Sucesso';
+        _this2.$store.state.transacao.message = 'Marca removida com sucesso';
 
-        _this.carregarLista();
+        _this2.carregarLista();
       })["catch"](function (errors) {
-        _this.$store.state.transacao.status = 'Erro';
-        _this.$store.state.transacao.message = error.response.data.detalhes;
+        _this2.$store.state.transacao.status = 'Erro';
+        _this2.$store.state.transacao.message = error.response.data.detalhes;
       });
     },
     pesquisar: function pesquisar() {
@@ -5796,7 +5821,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     carregarLista: function carregarLista() {
-      var _this2 = this;
+      var _this3 = this;
 
       var url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro;
       console.log(url);
@@ -5807,7 +5832,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       };
       axios.get(url, config).then(function (response) {
-        _this2.marcas = response.data; //console.log(this.marcas)
+        _this3.marcas = response.data; //console.log(this.marcas)
       })["catch"](function (error) {
         console.log(error);
       });
@@ -5816,7 +5841,7 @@ __webpack_require__.r(__webpack_exports__);
       this.arquivoImagem = e.target.files;
     },
     cadastrarMarca: function cadastrarMarca() {
-      var _this3 = this;
+      var _this4 = this;
 
       var formData = new FormData();
       formData.append('nome', this.nomeMarca);
@@ -5830,11 +5855,11 @@ __webpack_require__.r(__webpack_exports__);
       };
       axios.post(this.urlBase, formData, config).then(function (response) {
         console.log(response);
-        _this3.transacaoStatus = 'Adicionado';
+        _this4.transacaoStatus = 'Adicionado';
       })["catch"](function (error) {
         console.log(error);
-        _this3.transacaoStatus = 'Erro';
-        _this3.transacaoDetalhes = error.response;
+        _this4.transacaoStatus = 'Erro';
+        _this4.transacaoDetalhes = error.response;
       });
     }
   },
@@ -30379,7 +30404,7 @@ var render = function () {
                         attrs: {
                           titulo: "Nome da marca",
                           id: "atualizarNome",
-                          "id-help": "novoNomeHelp",
+                          "id-help": "atualizaNomeHelp",
                           "texto-ajuda": "Informe o nome da marca",
                         },
                       },
@@ -30389,24 +30414,28 @@ var render = function () {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.nomeMarca,
-                              expression: "nomeMarca",
+                              value: _vm.$store.state.item.nome,
+                              expression: "$store.state.item.nome",
                             },
                           ],
                           staticClass: "form-control",
                           attrs: {
                             type: "text",
                             id: "novoNome",
-                            "aria-describedby": "novoNomeHelp",
+                            "aria-describedby": "atualizaNomeHelp",
                             placeholder: "Nome da marca",
                           },
-                          domProps: { value: _vm.nomeMarca },
+                          domProps: { value: _vm.$store.state.item.nome },
                           on: {
                             input: function ($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.nomeMarca = $event.target.value
+                              _vm.$set(
+                                _vm.$store.state.item,
+                                "nome",
+                                $event.target.value
+                              )
                             },
                           },
                         }),
