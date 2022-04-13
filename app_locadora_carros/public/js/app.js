@@ -5749,7 +5749,11 @@ __webpack_require__.r(__webpack_exports__);
       var formData = new FormData();
       formData.append('_method', 'patch');
       formData.append('nome', this.$store.state.item.nome);
-      formData.append('imagem', this.arquivoImagem[0]);
+
+      if (this.arquivoImagemm[0]) {
+        formData.append('imagem', this.arquivoImagem[0]);
+      }
+
       var url = this.urlBase + '/' + this.$store.state.item.id;
       var config = {
         headers: {
@@ -5763,6 +5767,8 @@ __webpack_require__.r(__webpack_exports__);
         _this.$store.state.transacao.message = response.data;
 
         _this.carregarLista();
+
+        inputAtualizacaoImagem.value = '';
       })["catch"](function (error) {
         _this.$store.state.transacao.status = 'Erro';
         _this.$store.state.transacao.message = error.response.data;
@@ -30464,7 +30470,7 @@ var render = function () {
                           staticClass: "form-control",
                           attrs: {
                             type: "file",
-                            id: "inputLogo",
+                            id: "inputAtualizacaoImagem",
                             "aria-describedby": "logoHelp",
                             placeholder: "Logo da marca",
                           },

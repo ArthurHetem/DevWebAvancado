@@ -169,7 +169,7 @@
                         id="atualizarImagem"
                         id-help="logoHelp"
                         texto-ajuda="Selecione o logo da marca">
-                            <input type="file" class="form-control" id="inputLogo" aria-describedby="logoHelp" placeholder="Logo da marca" @change="carregarImagem($event)">
+                            <input type="file" class="form-control" id="inputAtualizacaoImagem" aria-describedby="logoHelp" placeholder="Logo da marca" @change="carregarImagem($event)">
                     </input-container-component>
                 </div>
             </template>
@@ -210,7 +210,10 @@ import Paginate from './Paginate.vue'
                 let formData = new FormData();
                 formData.append('_method', 'patch');
                 formData.append('nome', this.$store.state.item.nome);
-                formData.append('imagem', this.arquivoImagem[0]);
+
+                if(this.arquivoImagemm[0]){
+                    formData.append('imagem', this.arquivoImagem[0]);
+                }
 
                 let url = this.urlBase + '/' + this.$store.state.item.id;
 
@@ -227,6 +230,8 @@ import Paginate from './Paginate.vue'
                         this.$store.state.transacao.status = 'Sucesso';
                         this.$store.state.transacao.message = response.data;
                         this.carregarLista();
+                        inputAtualizacaoImagem.value = '';
+
                     })
                     .catch(error => {
                         this.$store.state.transacao.status = 'Erro';
