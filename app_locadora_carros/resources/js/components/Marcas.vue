@@ -43,7 +43,7 @@
                         <table-component
                             :dados="marcas.data"
                             :visualizar="{visivel: true, dataToggle: 'modal', dataTarget: '#modalMarcaVisualizar'}"
-                            :atualizar="true"
+                            :atualizar="{visivel: true, dataToggle: 'modal', dataTarget: '#modalMarcaAtualizar'}"
                             :remover="{visivel: true, dataToggle: 'modal', dataTarget: '#modalMarcaRemover'}"
                             :titulos="{
                                 id:{titulo: 'ID', tipo: 'texto'},
@@ -147,6 +147,38 @@
             </template>
         </modal-component>
         <!-- FIM MODAL REMOÇÃO MARCA -->
+        <!-- INICIO MODAL ATUALIZAR MARCA -->
+        <modal-component id="modalMarcaAtualizar" titulo="Atualizar Marca">
+            <template v-slot:alertas>
+                <alert-component v-if="transacaoStatus == 'Adicionado'" tipo="success"></alert-component>
+                <alert-component v-if="transacaoStatus == 'Erro'" tipo="danger" :detalhes="transacaoDetalhes" titulo="Erro ao tentar cadastrar a marca"></alert-component>
+            </template>
+            <template v-slot:conteudo>
+                <div class="form-group">
+                    <input-container-component
+                        titulo="Nome da marca"
+                        id="atualizarNome"
+                        id-help="novoNomeHelp"
+                        texto-ajuda="Informe o nome da marca">
+                            <input type="text" class="form-control" id="novoNome" aria-describedby="novoNomeHelp" placeholder="Nome da marca" v-model="nomeMarca">
+                    </input-container-component>
+                </div>
+                <div class="form-group">
+                    <input-container-component
+                        titulo="Logo da marca"
+                        id="atualizarImagem"
+                        id-help="logoHelp"
+                        texto-ajuda="Selecione o logo da marca">
+                            <input type="file" class="form-control" id="inputLogo" aria-describedby="logoHelp" placeholder="Logo da marca" @change="carregarImagem($event)">
+                    </input-container-component>
+                </div>
+            </template>
+            <template v-slot:rodape>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" @click="atualizar()">Atualizar</button>
+            </template>
+        </modal-component>
+        <!-- FIM MODAL ATUALIZAR MARCA -->
     </div>
 </template>
 

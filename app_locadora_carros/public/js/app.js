@@ -5678,6 +5678,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -29787,7 +29819,11 @@ var render = function () {
                             dataToggle: "modal",
                             dataTarget: "#modalMarcaVisualizar",
                           },
-                          atualizar: true,
+                          atualizar: {
+                            visivel: true,
+                            dataToggle: "modal",
+                            dataTarget: "#modalMarcaAtualizar",
+                          },
                           remover: {
                             visivel: true,
                             dataToggle: "modal",
@@ -30304,6 +30340,152 @@ var render = function () {
           true
         ),
       }),
+      _vm._v(" "),
+      _c("modal-component", {
+        attrs: { id: "modalMarcaAtualizar", titulo: "Atualizar Marca" },
+        scopedSlots: _vm._u([
+          {
+            key: "alertas",
+            fn: function () {
+              return [
+                _vm.transacaoStatus == "Adicionado"
+                  ? _c("alert-component", { attrs: { tipo: "success" } })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.transacaoStatus == "Erro"
+                  ? _c("alert-component", {
+                      attrs: {
+                        tipo: "danger",
+                        detalhes: _vm.transacaoDetalhes,
+                        titulo: "Erro ao tentar cadastrar a marca",
+                      },
+                    })
+                  : _vm._e(),
+              ]
+            },
+            proxy: true,
+          },
+          {
+            key: "conteudo",
+            fn: function () {
+              return [
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    _c(
+                      "input-container-component",
+                      {
+                        attrs: {
+                          titulo: "Nome da marca",
+                          id: "atualizarNome",
+                          "id-help": "novoNomeHelp",
+                          "texto-ajuda": "Informe o nome da marca",
+                        },
+                      },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.nomeMarca,
+                              expression: "nomeMarca",
+                            },
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: "novoNome",
+                            "aria-describedby": "novoNomeHelp",
+                            placeholder: "Nome da marca",
+                          },
+                          domProps: { value: _vm.nomeMarca },
+                          on: {
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.nomeMarca = $event.target.value
+                            },
+                          },
+                        }),
+                      ]
+                    ),
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    _c(
+                      "input-container-component",
+                      {
+                        attrs: {
+                          titulo: "Logo da marca",
+                          id: "atualizarImagem",
+                          "id-help": "logoHelp",
+                          "texto-ajuda": "Selecione o logo da marca",
+                        },
+                      },
+                      [
+                        _c("input", {
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "file",
+                            id: "inputLogo",
+                            "aria-describedby": "logoHelp",
+                            placeholder: "Logo da marca",
+                          },
+                          on: {
+                            change: function ($event) {
+                              return _vm.carregarImagem($event)
+                            },
+                          },
+                        }),
+                      ]
+                    ),
+                  ],
+                  1
+                ),
+              ]
+            },
+            proxy: true,
+          },
+          {
+            key: "rodape",
+            fn: function () {
+              return [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-bs-dismiss": "modal" },
+                  },
+                  [_vm._v("Fechar")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.atualizar()
+                      },
+                    },
+                  },
+                  [_vm._v("Atualizar")]
+                ),
+              ]
+            },
+            proxy: true,
+          },
+        ]),
+      }),
     ],
     1
   )
@@ -30444,7 +30626,7 @@ var render = function () {
             ])
           }),
           _vm._v(" "),
-          _vm.visualizar.visivel || _vm.atualizar || _vm.remover.visivel
+          _vm.visualizar.visivel || _vm.atualizar.visivel || _vm.remover.visivel
             ? _c("th")
             : _vm._e(),
         ],
@@ -30484,7 +30666,9 @@ var render = function () {
               ])
             }),
             _vm._v(" "),
-            _vm.visualizar.visivel || _vm.atualizar || _vm.remover.visivel
+            _vm.visualizar.visivel ||
+            _vm.atualizar.visivel ||
+            _vm.remover.visivel
               ? _c("td", [
                   _vm.visualizar.visivel
                     ? _c(
@@ -30506,15 +30690,19 @@ var render = function () {
                       )
                     : _vm._e(),
                   _vm._v(" "),
-                  _vm.atualizar
+                  _vm.atualizar.visivel
                     ? _c(
                         "button",
                         {
                           staticClass: "btn btn-sm btn-outline-primary",
-                          attrs: { type: "button" },
+                          attrs: {
+                            type: "button",
+                            "data-bs-toggle": _vm.atualizar.dataToggle,
+                            "data-bs-target": _vm.atualizar.dataTarget,
+                          },
                           on: {
                             click: function ($event) {
-                              return _vm.editar(obj)
+                              return _vm.setStore(obj)
                             },
                           },
                         },
@@ -30522,7 +30710,7 @@ var render = function () {
                       )
                     : _vm._e(),
                   _vm._v(" "),
-                  _vm.remover
+                  _vm.remover.visivel
                     ? _c(
                         "button",
                         {
