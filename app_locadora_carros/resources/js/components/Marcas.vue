@@ -150,8 +150,8 @@
         <!-- INICIO MODAL ATUALIZAR MARCA -->
         <modal-component id="modalMarcaAtualizar" titulo="Atualizar Marca">
             <template v-slot:alertas>
-                <alert-component v-if="transacaoStatus == 'Adicionado'" tipo="success"></alert-component>
-                <alert-component v-if="transacaoStatus == 'Erro'" tipo="danger" :detalhes="transacaoDetalhes" titulo="Erro ao tentar cadastrar a marca"></alert-component>
+                <alert-component v-if="$store.state.transacao.status == 'Sucesso'" tipo="success" :titulo="$store.state.transacao.mensagem" :detalhes="{data: { message: ''}}"></alert-component>
+                <alert-component v-if="$store.state.transacao.status == 'Erro'" tipo="danger" :titulo="$store.state.transacao.mensagem" :detalhes="{data: { message: ''}}"></alert-component>
             </template>
             <template v-slot:conteudo>
                 <div class="form-group">

@@ -30379,16 +30379,22 @@ var render = function () {
             key: "alertas",
             fn: function () {
               return [
-                _vm.transacaoStatus == "Adicionado"
-                  ? _c("alert-component", { attrs: { tipo: "success" } })
+                _vm.$store.state.transacao.status == "Sucesso"
+                  ? _c("alert-component", {
+                      attrs: {
+                        tipo: "success",
+                        titulo: _vm.$store.state.transacao.mensagem,
+                        detalhes: { data: { message: "" } },
+                      },
+                    })
                   : _vm._e(),
                 _vm._v(" "),
-                _vm.transacaoStatus == "Erro"
+                _vm.$store.state.transacao.status == "Erro"
                   ? _c("alert-component", {
                       attrs: {
                         tipo: "danger",
-                        detalhes: _vm.transacaoDetalhes,
-                        titulo: "Erro ao tentar cadastrar a marca",
+                        titulo: _vm.$store.state.transacao.mensagem,
+                        detalhes: { data: { message: "" } },
                       },
                     })
                   : _vm._e(),
