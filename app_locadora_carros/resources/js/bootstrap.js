@@ -1,3 +1,5 @@
+const { default: axios } = require('axios');
+
 window._ = require('lodash');
 
 try {
@@ -30,3 +32,23 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+// interceptando as requests
+axios.interceptors.request.use(
+    config => {
+        return config
+    },
+    error => {
+        return Promise.reject(error)
+    }
+)
+
+// interceptando as reponses
+axios.interceptors.response.use(
+    response => {
+        return response
+    },
+    error => {
+        return Promise.reject(error)
+    }
+)
